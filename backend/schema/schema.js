@@ -2,8 +2,8 @@
 const { medications, users } = require("../sampleData.js");
 
 // Mongoose Models
-// const Project = require("../models/Project.js");
-// const Client = require("../models/Client.js");
+const Medication = require("../models/Medication.js");
+const User = require("../models/User.js");
 
 const {
   GraphQLObjectType,
@@ -53,15 +53,15 @@ const RootQuery = new GraphQLObjectType({
     users: {
       type: new GraphQLList(UserType),
       resolve: (parent, args) => {
-        return users;
+        return User.find();
       },
     },
     user: {
       type: UserType,
       args: { id: { type: GraphQLID } },
       resolve: (parentValue, args) => {
-        // return users.findById(args.id);
-        return users.find((user) => user.id === args.id);
+        return User.findById(args.id);
+        // return users.find((user) => user.id === args.id);
       },
     },
     medications: {
@@ -80,6 +80,30 @@ const RootQuery = new GraphQLObjectType({
   },
 });
 
+const mutation = new GraphQLObjectType({
+  name: "Mutation",
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+        email: { type: GraphQLNonNull(GraphQLString) },
+        phone: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve: (parentValue, args) => {
+        const user = new User({
+          name: args.name,
+          email: args.email,
+          phone: args.phone,
+        });
+
+        return user.save();
+      },
+    },
+  },
+});
+
 module.exports = new GraphQLSchema({
   query: RootQuery,
+  mutation,
 });
