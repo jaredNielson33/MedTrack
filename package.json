@@ -2,7 +2,7 @@
   "name": "medtrack",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "server": "nodemon backend/server.js",
     "client": "npm run start --prefix frontend",
@@ -12,15 +12,17 @@
   "author": "Jared Nielson",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.4.0",
     "concurrently": "^8.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
+    "graphql-http": "^1.19.0",
     "mongoose": "^7.2.2"
   },
   "devDependencies": {
+    "dotenv": "^16.1.4",
     "nodemon": "^2.0.22"
   }
 }
